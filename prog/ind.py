@@ -7,30 +7,18 @@
 # Номер варианта определяется по согласованию с преподавателем.
 # В процессе решения не использовать преобразования конструкции *args
 # в список или иную структуру данных.
-# Сумму модулей аргументов,
-# расположенных после первого отрицательного аргумента.
+# Сумму модулей аргументов, расположенных после минимального по модулю аргумента.
 
-def func(*args):
-    """
-    Подсчет суммы модулей аргументов после первого отрицательного
-    """
-    if not args:
+def sum_mod_after_min(*args):
+    if not args:  # Если список аргументов пуст, вернуть None
         return None
 
-    switch = False
-    summ = 0
-    for arg in args:
-        if not switch and arg < 0:
-            switch = True
-        elif switch:
-            summ += abs(arg)
+    min_abs_arg = min(args, key=abs)  # Находим минимальный по модулю аргумент
+    sum_mod = sum(abs(arg) for arg in args[args.index(min_abs_arg) + 1:])
 
-    return summ
+    return sum_mod
 
-
-if __name__ == "__main__":
-    print(func(1, 2, 1, 2, -1, 3))
-    print(func(1, 2, -1, 2, -1, 3))
-    print(func(1, -41))
-    print(func(1, -41, 34, -2))
-    print(func())
+# Примеры использования
+print(sum_mod_after_min(3, -5, 2, 4))  # Сумма модулей аргументов после -5: |2| + |4| = 6
+print(sum_mod_after_min(-10, 5, -3, 7, 1))  # Сумма модулей аргументов после -3: |7| + |1| = 8
+print(sum_mod_after_min())  # Пустой список аргументов, возвращаем None
